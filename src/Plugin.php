@@ -38,7 +38,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      *
      * @var string
      */
-    const PACKAGE_NAME = 'php-composter/php-composter';
+    const PACKAGE_NAME = 'improntus/php-composter';
 
     /**
      * Instance of the IO interface.

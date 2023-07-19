@@ -10,7 +10,7 @@
 			"role"     : "Developer"
 		}
 	],
-	"version"	    : "1.0.1",
+	"version"	    : "1.0.2",
 	"type"              : "composer-plugin",
 	"minimum-stability" : "dev",
 	"prefer-stable"     : true,

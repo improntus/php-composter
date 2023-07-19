@@ -27,7 +27,7 @@ class Paths
     const ACTIONS_FOLDER      = 'actions/';
     const BIN_FOLDER          = 'bin/';
     const COMPOSTER_FOLDER    = 'php-composter/';
-    const COMPOSTER_PATH      = 'vendor/php-composter/php-composter/';
+    const COMPOSTER_PATH      = 'vendor/improntus/php-composter/';
     const CONFIG              = 'config.php';
     const EXECUTABLE          = 'php-composter';
     const GIT_FOLDER          = '.git/';
