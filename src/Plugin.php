@@ -54,14 +54,39 @@ class Plugin implements PluginInterface, EventSubscriberInterface
     /**
      * Get the event subscriber configuration for this plugin.
      *
-     * @return array<string,string> The events to listen to, and their associated handlers.
+     * @return array<string, string|array{0: string, 1?: int}|array<array{0: string, 1?: int}>> The events to listen to, and their associated handlers.
      */
     public static function getSubscribedEvents()
     {
         return [
-            ScriptEvents::POST_INSTALL_CMD => 'persistConfig',
-            ScriptEvents::POST_UPDATE_CMD  => 'persistConfig',
+            ScriptEvents::POST_INSTALL_CMD => [
+                ['setCodeSnifferStandards', 1],
+                ['persistConfig', 2],
+                ['makeHooksExecutable', 3],
+                ['makeComposterExecutable', 4],
+            ],
+            ScriptEvents::POST_UPDATE_CMD  => [
+                ['setCodeSnifferStandards', 1],
+                ['persistConfig', 2],
+                ['makeHooksExecutable', 3],
+                ['makeComposterExecutable', 4],
+            ],
         ];
+    }
+
+    public function setCodeSnifferStandards()
+    {
+        exec('vendor/bin/phpcs --config-set installed_paths ../../phpcompatibility/php-compatibility,../../magento/magento-coding-standard/');
+    }
+
+    public function makeHooksExecutable()
+    {
+        exec('chmod +x .git/hooks/*');
+    }
+
+    public function makeComposterExecutable()
+    {
+        exec('chmod +x vendor/improntus/php-composter/bin/php-composter');
     }
 
     /**
@@ -121,7 +146,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             }
             $output .= "$i],$phpEOL";
         }
-        $output .= "$i;$phpEOL";
+        $output .= "$i];$phpEOL";
         return $output;
     }
 
@@ -221,8 +246,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                 );
             }
             $this->createRelativeSymlink($filesystem, $gitScriptPath, $hookPath);
-            chmod($hookPath, 0777);
-            chmod($gitScriptPath, 0777);
+            exec("chmod +x $hookPath");
+            exec("chmod +x $gitScriptPath");
         }
     }
 
