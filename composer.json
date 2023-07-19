@@ -10,7 +10,7 @@
 			"role"     : "Developer"
 		}
 	],
-	"version"	    : "1.0.0",
+	"version"	    : "1.0.1",
 	"type"              : "composer-plugin",
 	"minimum-stability" : "dev",
 	"prefer-stable"     : true,
@@ -39,7 +39,10 @@
 		}
 	},
 	"config"            : {
-		"optimize-autoloader" : true
+		"optimize-autoloader" : true,
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	},
 	"extra"             : {
 		"class" : "PHPComposter\\PHPComposter\\Plugin"
