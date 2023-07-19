@@ -9,7 +9,7 @@
  * @copyright 2016 Alain Schlesser, Bright Nucleus
  */
 
-namespace PHPComposter\PHPComposter;
+namespace Improntus\PHPComposter;
 
 /**
  * Interface Git.

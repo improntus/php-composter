@@ -8,9 +8,15 @@
 			"email"    : "alain.schlesser@gmail.com",
 			"homepage" : "https://www.alainschlesser.com",
 			"role"     : "Developer"
+		},
+		{
+			"name"     : "Facundo Colonna",
+			"email"    : "facundo@improntus.com",
+			"homepage" : "https://www.improntus.com",
+			"role"     : "Technical Leader"
 		}
 	],
-	"version"	    : "1.0.2",
+	"version"	    : "1.1.0",
 	"type"              : "composer-plugin",
 	"minimum-stability" : "dev",
 	"prefer-stable"     : true,
@@ -25,17 +31,9 @@
 		"composer/composer"   : "*",
 		"composer-plugin-api" : "*"
 	},
-	"require-dev"       : {
-		"phpunit/phpunit" : "*"
-	},
 	"autoload"          : {
 		"psr-4" : {
-			"PHPComposter\\PHPComposter\\" : "src/"
-		}
-	},
-	"autoload-dev"      : {
-		"psr-4" : {
-			"PHPComposter\\Tests\\" : "tests/src/"
+			"Improntus\\PHPComposter\\" : "src/"
 		}
 	},
 	"config"            : {
@@ -45,6 +43,6 @@
 		}
 	},
 	"extra"             : {
-		"class" : "PHPComposter\\PHPComposter\\Plugin"
+		"class" : "Improntus\\PHPComposter\\Plugin"
 	}
 }

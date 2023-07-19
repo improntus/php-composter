@@ -9,7 +9,7 @@
  * @copyright 2016 Alain Schlesser, Bright Nucleus
  */
 
-namespace PHPComposter\PHPComposter;
+namespace Improntus\PHPComposter;
 
 /**
  * Class Paths.
@@ -24,16 +24,16 @@ namespace PHPComposter\PHPComposter;
 class Paths
 {
 
-    const ACTIONS_FOLDER      = 'actions/';
-    const BIN_FOLDER          = 'bin/';
-    const COMPOSTER_FOLDER    = 'php-composter/';
-    const COMPOSTER_PATH      = 'vendor/improntus/php-composter/';
-    const CONFIG              = 'config.php';
-    const EXECUTABLE          = 'php-composter';
-    const GIT_FOLDER          = '.git/';
+    const ACTIONS_FOLDER = 'actions/';
+    const BIN_FOLDER = 'bin/';
+    const COMPOSTER_FOLDER = 'php-composter/';
+    const COMPOSTER_PATH = 'vendor/improntus/php-composter/';
+    const CONFIG = 'config.php';
+    const EXECUTABLE = 'php-composter';
+    const GIT_FOLDER = '.git/';
     const GIT_TEMPLATE_FOLDER = 'includes/';
-    const HOOKS_FOLDER        = 'hooks/';
-    const COMPOSER_CONFIG     = 'composer.json';
+    const HOOKS_FOLDER = 'hooks/';
+    const COMPOSER_CONFIG = 'composer.json';
 
     /**
      * Internal storage of all required paths.
@@ -47,11 +47,11 @@ class Paths
     /**
      * Get a specific path by key.
      *
-     * @since 0.1.0
-     *
      * @param string $key Key of the path to retrieve.
      *
      * @return string Path associated with the key. Empty string if not found.
+     * @since 0.1.0
+     *
      */
     public static function getPath($key)
     {
@@ -73,16 +73,19 @@ class Paths
      */
     protected static function initPaths()
     {
-        static::$paths['pwd']              = getcwd() . DIRECTORY_SEPARATOR;
-        static::$paths['root_git']         = static::$paths['pwd'] . self::GIT_FOLDER;
-        static::$paths['root_hooks']       = static::$paths['root_git'] . self::HOOKS_FOLDER;
-        static::$paths['vendor_composter'] = static::$paths['pwd'] . self::COMPOSTER_PATH;
-        static::$paths['git_composter']    = static::$paths['root_git'] . self::COMPOSTER_FOLDER;
-        static::$paths['git_script']       = static::$paths['vendor_composter'] . self::BIN_FOLDER . self::EXECUTABLE;
-        static::$paths['actions']          = static::$paths['git_composter'] . self::ACTIONS_FOLDER;
-        static::$paths['git_template']     = static::$paths['vendor_composter'] . self::GIT_TEMPLATE_FOLDER;
-        static::$paths['root_template']    = static::$paths['git_composter'] . self::GIT_TEMPLATE_FOLDER;
-        static::$paths['git_config']       = static::$paths['git_composter'] . self::CONFIG;
-        static::$paths['composer_config']  = static::$paths['pwd'] . self::COMPOSER_CONFIG;
+        $pwd = getcwd() . DIRECTORY_SEPARATOR;
+        static::$paths = [
+            'pwd'              => $pwd,
+            'root_git'         => $pwd . self::GIT_FOLDER,
+            'root_hooks'       => $pwd . self::GIT_FOLDER . self::HOOKS_FOLDER,
+            'vendor_composter' => $pwd . self::COMPOSTER_PATH,
+            'git_composter'    => $pwd . self::GIT_FOLDER . self::COMPOSTER_FOLDER,
+            'git_script'       => $pwd . self::COMPOSTER_PATH . self::BIN_FOLDER . self::EXECUTABLE,
+            'actions'          => $pwd . self::GIT_FOLDER . self::COMPOSTER_FOLDER . self::ACTIONS_FOLDER,
+            'git_template'     => $pwd . self::COMPOSTER_PATH . self::GIT_TEMPLATE_FOLDER,
+            'root_template'    => $pwd . self::GIT_FOLDER . self::COMPOSTER_FOLDER . self::GIT_TEMPLATE_FOLDER,
+            'git_config'       => $pwd . self::GIT_FOLDER . self::COMPOSTER_FOLDER . self::CONFIG,
+            'composer_config'  => $pwd . self::COMPOSER_CONFIG,
+        ];
     }
 }

@@ -9,7 +9,7 @@
  * @copyright 2016 Alain Schlesser, Bright Nucleus
  */
 
-namespace PHPComposter\PHPComposter;
+namespace Improntus\PHPComposter;
 
 use Exception;
 use LogicException;
@@ -27,17 +27,17 @@ $hook          = array_shift($arguments);
 $root          = array_shift($arguments);
 
 // Initialize Composer Autoloader.
-if (!is_readable($root . '/vendor/autoload.php')) {
+if (!is_readable("$root/vendor/autoload.php")) {
     exit("PHP Composter cannot access the Composer autoloader, skipping git hooks.\n");
 }
-require_once $root . '/vendor/autoload.php';
+require_once "$root/vendor/autoload.php";
 
 // Read the configuration file.
-$config_path = Paths::getPath('git_config');
-if (!is_readable($config_path)) {
+$configPath = Paths::getPath('git_config');
+if (!is_readable($configPath)) {
     exit("PHP Composter cannot access its configuration file, skipping git hooks.\n");
 }
-$config = include $config_path;
+$config = include $configPath;
 
 // Make sure we have hooks to iterate over.
 if (!array_key_exists($hook, $config)) {
@@ -58,13 +58,13 @@ foreach ($actions as $calls) {
         // Make sure we could parse the call correctly.
         $array = explode('::', $call);
         if (count($array) !== 2) {
-            echo "Configuration error in PHP Composter data, could not parse method '{$call}'.\n";
+            echo "Configuration error in PHP Composter data, could not parse method '$call'.\n";
             break;
         }
         list($class, $method) = $array;
 
         if (!class_exists($class)) {
-            echo "PHP Composter cannot instantiate class '{$class}', skipping.\n";
+            echo "PHP Composter cannot instantiate class '$class', skipping.\n";
             break;
         }
 
@@ -79,7 +79,7 @@ foreach ($actions as $calls) {
         try {
             call_user_func_array([$object, $method], $arguments);
         } catch (Exception $exception) {
-            echo "PHP Composter cannot call '{$method}' on object of class '{$class}', skipping.\n";
+            echo "PHP Composter cannot call '$method' on object of class '$class', skipping.\n";
             break;
         }
 

@@ -9,11 +9,12 @@
  * @copyright 2016 Alain Schlesser, Bright Nucleus
  */
 
-namespace PHPComposter\PHPComposter;
+namespace Improntus\PHPComposter;
 
 use Composer\IO\ConsoleIO;
 use Composer\IO\IOInterface;
 use Composer\Util\Filesystem;
+use RuntimeException;
 use Symfony\Component\Console;
 
 /**
@@ -29,9 +30,9 @@ use Symfony\Component\Console;
 class BaseAction
 {
 
-    const LOCALE       = 'en_US.UTF-8';
+    const LOCALE = 'en_US.UTF-8';
     const ENCODING_ENV = 'LC_ALL=en_US.UTF-8';
-    const GIT_BINARY   = 'git';
+    const GIT_BINARY = 'git';
 
     /**
      * Root folder of the package.
@@ -72,11 +73,11 @@ class BaseAction
     /**
      * Instantiate a BaseAction object.
      *
+     * @param string $hook The name of the hook that was triggered.
+     * @param string $root Absolute path to the root folder of the package.
+     * @param IOInterface $io Optional. Input/Output interface implementation.
      * @since 0.1.3
      *
-     * @param string      $hook The name of the hook that was triggered.
-     * @param string      $root Absolute path to the root folder of the package.
-     * @param IOInterface $io   Optional. Input/Output interface implementation.
      */
     public function __construct($hook, $root, IOInterface $io = null)
     {
@@ -89,9 +90,9 @@ class BaseAction
     /**
      * Get the default console input/output implementation.
      *
+     * @return IOInterface A HelperSet instance
      * @since 0.1.3
      *
-     * @return IOInterface A HelperSet instance
      */
     protected function getDefaultConsoleIO()
     {
@@ -105,18 +106,18 @@ class BaseAction
     /**
      * Get the default helper set with the helpers that should always be available.
      *
+     * @return Console\Helper\HelperSet A HelperSet instance
      * @since 0.1.3
      *
-     * @return Console\Helper\HelperSet A HelperSet instance
      */
     protected function getDefaultHelperSet()
     {
         return new Console\Helper\HelperSet([
-            new Console\Helper\FormatterHelper(),
-            new Console\Helper\DebugFormatterHelper(),
-            new Console\Helper\ProcessHelper(),
-            new Console\Helper\QuestionHelper(),
-        ]);
+                                                new Console\Helper\FormatterHelper(),
+                                                new Console\Helper\DebugFormatterHelper(),
+                                                new Console\Helper\ProcessHelper(),
+                                                new Console\Helper\QuestionHelper(),
+                                            ]);
     }
 
     /**
@@ -155,9 +156,9 @@ class BaseAction
     /**
      * Write a message to the console.
      *
+     * @param string $message Message to write to the console.
      * @since 0.3.0
      *
-     * @param string $message Message to write to the console.
      */
     protected function write($message)
     {
@@ -167,9 +168,9 @@ class BaseAction
     /**
      * Display the title of the action.
      *
+     * @param string $title Title of the action.
      * @since 0.3.0
      *
-     * @param string $title Title of the action.
      */
     protected function title($title)
     {
@@ -179,10 +180,10 @@ class BaseAction
     /**
      * Generate an error message and optionally halt further execution.
      *
+     * @param string $message Error message to render.
+     * @param int|false $exitCode Integer exit code, or false if execution should not be halted.
      * @since 0.3.0
      *
-     * @param string    $message  Error message to render.
-     * @param int|false $exitCode Integer exit code, or false if execution should not be halted.
      */
     protected function error($message, $exitCode)
     {
@@ -193,11 +194,11 @@ class BaseAction
     /**
      * Generate a success message and optionally halt further execution.
      *
-     * @since 0.3.0
-     *
-     * @param string    $message  Success message to render.
+     * @param string $message Success message to render.
      * @param int|false $exitCode Optional. Integer exit code, or false if execution should not be halted.
      *                            Defaults to 0.
+     * @since 0.3.0
+     *
      */
     protected function success($message, $exitCode = 0)
     {
@@ -208,11 +209,11 @@ class BaseAction
     /**
      * Skip the current action but continue execution for other actions.
      *
-     * @since 0.3.0
-     *
-     * @param string    $reason   Reason why the current action was skipped.
+     * @param string $reason Reason why the current action was skipped.
      * @param int|false $exitCode Optional. Integer exit code, or false if execution should not be halted.
      *                            Defaults to 0.
+     * @since 0.3.0
+     *
      */
     protected function skip($reason, $exitCode = 0)
     {
@@ -223,17 +224,17 @@ class BaseAction
     /**
      * Get the value for a specific "extra" config key.
      *
-     * @since 0.3.0
-     *
-     * @param string $key      Key to retrieve.
-     * @param mixed  $fallback Optional. Fallback value to use if the key is not found.
+     * @param string $key Key to retrieve.
+     * @param mixed $fallback Optional. Fallback value to use if the key is not found.
      *
      * @return mixed
+     * @since 0.3.0
+     *
      */
     protected function getExtraKey($key, $fallback = null)
     {
         $config = $this->getConfigArray();
-        $extra  = array_key_exists('extra', $config)
+        $extra = array_key_exists('extra', $config)
             ? $config['extra']
             : [];
 
@@ -245,9 +246,9 @@ class BaseAction
     /**
      * Get the Composer configuration.
      *
+     * @return array
      * @since 0.3.0
      *
-     * @return array
      */
     protected function getConfigArray()
     {
@@ -273,12 +274,12 @@ class BaseAction
     /**
      * Recursively iterate over folders and look for $pattern.
      *
-     * @since 0.1.3
-     *
      * @param string $pattern Pattern to look for.
-     * @param int    $flags   Optional. Flags to PHP glob() function. Defaults to 0.
+     * @param int $flags Optional. Flags to PHP glob() function. Defaults to 0.
      *
      * @return mixed
+     * @since 0.1.3
+     *
      */
     protected function recursiveGlob($pattern, $flags = 0)
     {
@@ -303,13 +304,13 @@ class BaseAction
      * folder, and return paths pointing to this temporary folder. Otherwise, file-based tools will run against the
      * current working tree, not the changes that are actually staged.
      *
+     * @return array
+     * @throws RuntimeException
+     * @var bool $mirrorStagedChanges Optional. Whether to create a file-based mirror of the staged changes.
+     *                                  Defaults to `true`.
      * @since 0.1.3
      *
-     * @var string $pattern             Optional. Grep pattern to filter the staged files against.
-     * @var bool   $mirrorStagedChanges Optional. Whether to create a file-based mirror of the staged changes.
-     *                                  Defaults to `true`.
-     * @return array
-     * @throws \RuntimeException
+     * @var string $pattern Optional. Grep pattern to filter the staged files against.
      */
     protected function getStagedFiles($pattern = '', $mirrorStagedChanges = true)
     {
@@ -324,7 +325,7 @@ class BaseAction
 
         // Unknown problem while fetching the index.
         if (Git::DIFF_INDEX_ERROR === $return) {
-            throw new \RuntimeException('Fetching staged files returns an error');
+            throw new RuntimeException('Fetching staged files returns an error');
         }
 
         // No files found.
@@ -338,7 +339,7 @@ class BaseAction
         // Check if we want to compare against the actual staged content changes (instead of only the file names).
         if ($mirrorStagedChanges) {
             $this->mirror = "{$this->root}/.git/staged";
-            $filesystem   = new Filesystem();
+            $filesystem = new Filesystem();
             $filesystem->emptyDirectory($this->mirror);
 
             // Checkout the current index with a folder prefix.
@@ -364,7 +365,7 @@ class BaseAction
      * Get the tree object to check against.
      *
      * @return string HEAD or hash representing empty/initial commit state.
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function getAgainst()
     {
@@ -373,11 +374,11 @@ class BaseAction
         exec($command, $output, $return);
 
         if (Git::UNEXPECTED_ERROR === $return) {
-            throw new \RuntimeException('This is not a valid git repository');
+            throw new RuntimeException('This is not a valid git repository');
         }
 
         if (Git::REV_PARSE_ERROR === $return) {
-            throw new \RuntimeException('Finding the HEAD commit hash returned an error');
+            throw new RuntimeException('Finding the HEAD commit hash returned an error');
         }
 
         // Check if we're on a semi-secret empty tree.
@@ -392,11 +393,11 @@ class BaseAction
     /**
      * Return an escaped call to git based on an arbitrary number of arguments.
      *
-     * @since 0.3.0
-     *
      * @param array <string> ...$_args Array of arguments to escape.
      *
      * @return string Escaped call to git.
+     * @since 0.3.0
+     *
      */
     protected function gitCall($_args)
     {
@@ -412,9 +413,9 @@ class BaseAction
     /**
      * Prepend the repository root path.
      *
-     * @param string $file  File name by reference
-     * @param int    $index Index into the array.
-     * @param string $root  Root folder.
+     * @param string $file File name by reference
+     * @param int $index Index into the array.
+     * @param string $root Root folder.
      */
     protected function prependRoot(&$file, $index, $root)
     {
@@ -424,13 +425,13 @@ class BaseAction
     /**
      * Prepend the repository root path.
      *
-     * @param string $file    File name by reference
-     * @param int    $index   Index into the array.
-     * @param array  $folders Root and mirror folder paths.
+     * @param string $file File name by reference
+     * @param int $index Index into the array.
+     * @param array $folders Root and mirror folder paths.
      */
     protected function detectStagedChanges(&$file, $index, $folders)
     {
-        list($root, $mirror) = $folders;
+        [$root, $mirror] = $folders;
 
         if ($this->filesEqual("{$root}/{$file}", "{$mirror}/{$file}")) {
             $file = "{$root}/{$file}";
@@ -446,12 +447,12 @@ class BaseAction
      *
      * Does incremental comparison to avoid loading big files entirely if not needed.
      *
-     * @since 0.3.0
-     *
      * @param string $fileA Path to the first file to compare.
      * @param string $fileB Path to the second file to compare.
      *
      * @return bool Whether the two files were equal.
+     * @since 0.3.0
+     *
      */
     protected function filesEqual($fileA, $fileB)
     {
@@ -474,7 +475,7 @@ class BaseAction
 
         while ($equal && ($bufferA = fread($fileResourceA, 4096)) !== false) {
             $bufferB = fread($fileResourceB, 4096);
-            $equal   = $bufferA !== $bufferB;
+            $equal = $bufferA !== $bufferB;
         }
 
         fclose($fileResourceA);

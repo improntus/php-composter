@@ -9,7 +9,7 @@
  * @copyright 2016 Alain Schlesser, Bright Nucleus
  */
 
-namespace PHPComposter\PHPComposter;
+namespace Improntus\PHPComposter;
 
 use Composer\Installer\LibraryInstaller;
 use Composer\Package\PackageInterface;
@@ -30,42 +30,29 @@ class Installer extends LibraryInstaller
 {
 
     const EXTRA_KEY = 'php-composter-hooks';
-    const PREFIX    = 'php-composter-';
-    const TYPE      = 'php-composter-action';
-
-    /**
-     * Get the installation path of the package.
-     *
-     * @since 0.1.0
-     *
-     * @param PackageInterface $package The package to install.
-     *
-     * @return string Relative installation path.
-     * @throws InvalidArgumentException If the package name does not match the required pattern.
-     */
-    public function getInstallPath(PackageInterface $package)
-    {
-        return Paths::getPath('actions') . $this->getSuffix($package);
-    }
+    const PREFIX = 'php-composter-';
+    const TYPE = 'php-composter-action';
 
     /**
      * Install the package.
      *
-     * @since 0.1.0
-     *
-     * @param InstalledRepositoryInterface $repo    The repository from where the package was fetched.
-     * @param PackageInterface             $package The package to install.
+     * @param InstalledRepositoryInterface $repo The repository from where the package was fetched.
+     * @param PackageInterface $package The package to install.
      *
      * @throws InvalidArgumentException If the package name does not match the required pattern.
+     * @since 0.1.0
+     *
      */
     public function install(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
         $path = $this->getInstallPath($package);
         if ($this->io->isVerbose()) {
-            $this->io->write(sprintf(
-                'Symlinking PHP Composter action %1$s',
-                $path
-            ), true);
+            $this->io->write(
+                sprintf(
+                    'Symlinking PHP Composter action %1$s',
+                    $path
+                )
+            );
         }
 
         parent::install($repo, $package);
@@ -73,19 +60,21 @@ class Installer extends LibraryInstaller
         foreach ($this->getHooks($package) as $prioritizedHook => $method) {
             $array = explode('.', $prioritizedHook);
             if (count($array) > 1) {
-                list($priority, $hook) = $array;
+                [$priority, $hook] = $array;
             } else {
-                $hook     = $array[0];
+                $hook = $array[0];
                 $priority = 10;
             }
 
             if ($this->io->isVeryVerbose()) {
-                $this->io->write(sprintf(
-                    'Adding method "%1$s" to hook "%2$s" with priority %3$s',
-                    $method,
-                    $hook,
-                    $priority
-                ), true);
+                $this->io->write(
+                    sprintf(
+                        'Adding method "%1$s" to hook "%2$s" with priority %3$s',
+                        $method,
+                        $hook,
+                        $priority
+                    )
+                );
             }
             HookConfig::addEntry($hook, $method, $priority);
         }
@@ -94,14 +83,14 @@ class Installer extends LibraryInstaller
     /**
      * Check whether the package is already installed.
      *
-     * @todo  This should be made smarter to not always reinstall from scratch.
-     *
-     * @since 0.1.0
-     *
      * @param InstalledRepositoryInterface $repo
-     * @param PackageInterface             $package
+     * @param PackageInterface $package
      *
      * @return bool
+     * @since 0.1.0
+     *
+     * @todo  This should be made smarter to not always reinstall from scratch.
+     *
      */
     public function isInstalled(InstalledRepositoryInterface $repo, PackageInterface $package)
     {
@@ -112,11 +101,11 @@ class Installer extends LibraryInstaller
     /**
      * Whether the installer supports a given package type.
      *
-     * @since 0.1.0
-     *
      * @param $packageType
      *
      * @return bool
+     * @since 0.1.0
+     *
      */
     public function supports($packageType)
     {
@@ -126,27 +115,29 @@ class Installer extends LibraryInstaller
     /**
      * Get the package name suffix.
      *
-     * @since 0.1.0
-     *
      * @param PackageInterface $package Package to inspect.
      *
      * @return string Suffix of the package name.
      * @throws InvalidArgumentException If the package name does not match the required pattern.
+     * @since 0.1.0
+     *
      */
     protected function getSuffix(PackageInterface $package)
     {
-        $result = (array)explode('/', $package->getPrettyName());
+        $result = explode('/', $package->getPrettyName());
         if (count($result) !== 2) {
-            throw new InvalidArgumentException(sprintf(
-                'Unable to install PHP Composter action, could '
-                . 'not extract action name from package "%1$s"',
-                $package->getPrettyName()
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Unable to install PHP Composter action, could '
+                    . 'not extract action name from package "%1$s"',
+                    $package->getPrettyName()
+                )
+            );
         }
 
-        list($vendor, $name) = $result;
+        [$vendor, $name] = $result;
         $prefixLength = mb_strlen(self::PREFIX);
-        $prefix       = mb_substr($name, 0, $prefixLength);
+        $prefix = mb_substr($name, 0, $prefixLength);
 
         if (self::PREFIX === $prefix) {
             return mb_substr($name, $prefixLength);
@@ -158,17 +149,17 @@ class Installer extends LibraryInstaller
     /**
      * Get the hooks configuration from package extra data.
      *
-     * @since 0.2.0
-     *
      * @param PackageInterface $package Package to inspect.
      *
      * @return array Array of prioritized hooks.
+     * @since 0.2.0
+     *
      */
     protected function getHooks(PackageInterface $package)
     {
         $extra = $package->getExtra();
         if (!array_key_exists(self::EXTRA_KEY, $extra)) {
-            return array();
+            return [];
         }
 
         return $extra[self::EXTRA_KEY];
