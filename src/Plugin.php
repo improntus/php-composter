@@ -221,6 +221,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                 );
             }
             $this->createRelativeSymlink($filesystem, $gitScriptPath, $hookPath);
+            chmod($hookPath, 0755);
         }
     }
 
