@@ -1,5 +1,5 @@
 {
-	"name"              : "php-composter/php-composter",
+	"name"              : "improntus/php-composter",
 	"description"       : "Git Hooks Management through Composer.",
 	"license"           : "MIT",
 	"authors"           : [
@@ -20,13 +20,12 @@
 		"docs"   : "https://github.com/php-composter/php-composter/blob/master/README.md"
 	},
 	"require"           : {
-		"php"                 : "^5.4 || ^7.0",
-		"composer/installers" : "^1",
-		"composer/composer"   : "^1",
-		"composer-plugin-api" : "^1"
+		"composer/installers" : "*",
+		"composer/composer"   : "*",
+		"composer-plugin-api" : "*"
 	},
 	"require-dev"       : {
-		"phpunit/phpunit" : "5.3.*"
+		"phpunit/phpunit" : "*"
 	},
 	"autoload"          : {
 		"psr-4" : {
