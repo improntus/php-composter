@@ -117,9 +117,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                 foreach ($methods as $method) {
                     $output .= "$i3'$method',$phpEOL";
                 }
-                $output .= "$i2]$phpEOL";
+                $output .= "$i2],$phpEOL";
             }
-            $output .= "$i]$phpEOL";
+            $output .= "$i],$phpEOL";
         }
         $output .= "$i;$phpEOL";
         return $output;
