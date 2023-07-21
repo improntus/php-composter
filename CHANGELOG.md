@@ -1,21 +1,41 @@
-# Change Log
-All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+# ChangeLog
 
-## [0.3.3] - 2018-08-04
-### Changed
-- Make bootstrap file more robust.
+### 0.1.0 (24/03/2016)
+#### Added
+- Initial release to GitHub.
 
-## [0.3.2] - 2018-07-22
-### Changed
-- Adapt code to make it compatible with PHP 5.4.
+### 0.1.1 (24/03/2016)
+#### Added
+- Pass `$hook` and `$root` variables to each action.
 
-## [0.3.1] - 2018-07-14
-### Changed
-- Only show file exists warning in very verbose mode.
+### 0.1.2 (25/03/2016)
+#### Added
+- Graceful error-handling in bootstrapping process.
+- Several comments added.
+- Notice about package name requirements added to `README.md`.
 
-## [0.3.0] - 2018-07-14
-### Added
+### 0.1.3 (25/03/2016)
+#### Added
+- Refactor bootstrapping to use an instantiated object.
+- i18n all strings.
+
+#### Fixed
+- Updated `README.md` with refactoring changes.
+
+### 0.2.0 (28/03/2016)
+#### Added
+- List of existing actions in `README.md`.
+
+#### Changed
+- Hooks in `extra` key are regrouped under a new `php-composter-hooks` key.
+- Don't require package name vendor to be `php-composter`.
+
+### Fixes
+- Correct `README.md` badges.
+- Alternative way of simulating JSON comments in `README.md`.
+
+### 0.3.0 (14/07/2018)
+#### Added
 - Add unit tests.
 - Add ability to return a temporary checkout of staged content changes.
 - Add `error` output method to BaseAction.
@@ -26,7 +46,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add path to Composer file.
 - Introduce `getExtraKey()` method to BaseAction.
 
-### Changed
+#### Changed
 - Ensure that paths to symlink into actually exist.
 - Remove translatable strings, they are not a good fit for a CLI tool.
 - Pass additional arguments from shell stub to the bootstrap script.
@@ -36,46 +56,44 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Remove hard requirement for package name prefix
 - Instead of all modified file, get git staged files to current commit.
 
-## [0.2.0] - 2016-03-28
-### Added
-- List of existing actions in `README.md`.
+### 0.3.1 (14/07/2018)
+#### Changed
+- Only show file exists warning in very verbose mode.
 
-### Changed
-- Hooks in `extra` key are regrouped under a new `php-composter-hooks` key.
-- Don't require package name vendor to be `php-composter`.
+### 0.3.2 (22/07/2018)
+#### Changed
+- Adapt code to make it compatible with PHP 5.4.
 
-### Fixes
-- Correct `README.md` badges.
-- Alternative way of simulating JSON comments in `README.md`.
+### 0.3.3 (04/08/2018)
+#### Changed
+- Make bootstrap file more robust.
 
-## [0.1.3] - 2016-03-25
-### Added
-- Refactor bootstrapping to use an instantiated object.
-- i18n all strings.
+### 1.0.1 (19/07/2023)
+#### Changed
+- Make package compatible with php 7.4 and 8.1
 
-## Fixed
-- Updated `README.md` with refactoring changes.
+### 1.0.2 (19/07/2023)
+#### Changed
+- Change vendor name to Improntus
 
-## [0.1.2] - 2016-03-25
-### Added
-- Graceful error-handling in bootstrapping process.
-- Several comments added.
-- Notice about package name requirements added to `README.md`.
+### 1.1.0 (19/07/2023)
+#### Changed
+- Re-factorize to Improntus property
+- Fix bugs from newer version of composer
+- Remove /dev/tty and add chmod for symlinks
 
-## [0.1.1] - 2016-03-24
-### Added
-- Pass `$hook` and `$root` variables to each action.
+### 1.1.1 (19/07/2023)
+#### Changed
+- Remove /dev/tty and add chmod for symlinks
 
-## [0.1.0] - 2016-03-24
-### Added
-- Initial release to GitHub.
+### 1.1.2 (19/07/2023)
+#### Changed
+- Fix bugs from refactor
 
-[0.3.3]: https://github.com/brightnucleus/php-composter/compare/v0.3.3...v0.3.2
-[0.3.2]: https://github.com/brightnucleus/php-composter/compare/v0.3.2...v0.3.1
-[0.3.1]: https://github.com/brightnucleus/php-composter/compare/v0.3.1...v0.3.0
-[0.3.0]: https://github.com/brightnucleus/php-composter/compare/v0.3.0...v0.2.0
-[0.2.0]: https://github.com/brightnucleus/php-composter/compare/v0.1.3...v0.2.0
-[0.1.3]: https://github.com/brightnucleus/php-composter/compare/v0.1.2...v0.1.3
-[0.1.2]: https://github.com/brightnucleus/php-composter/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/brightnucleus/php-composter/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/brightnucleus/php-composter/compare/v0.0.0...v0.1.0
+### 1.1.3 (19/07/2023)
+#### Changed
+- Add chmod to post install cmd
+
+### 1.1.4 (21/07/2023)
+#### Changed
+- Check if folder is writeable before making changes

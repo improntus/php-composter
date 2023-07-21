@@ -76,17 +76,23 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
     public function setCodeSnifferStandards()
     {
-        exec('vendor/bin/phpcs --config-set installed_paths ../../phpcompatibility/php-compatibility,../../magento/magento-coding-standard/');
+        if (is_writeable('.git/hooks')) {
+            exec('vendor/bin/phpcs --config-set installed_paths ../../phpcompatibility/php-compatibility,../../magento/magento-coding-standard/');
+        }
     }
 
     public function makeHooksExecutable()
     {
-        exec('chmod +x .git/hooks/*');
+        if (is_writeable('.git/hooks')) {
+            exec('chmod +x .git/hooks/*');
+        }
     }
 
     public function makeComposterExecutable()
     {
-        exec('chmod +x vendor/improntus/php-composter/bin/php-composter');
+        if (is_writeable('vendor/improntus/php-composter/bin/php-composter')) {
+            exec('chmod +x vendor/improntus/php-composter/bin/php-composter');
+        }
     }
 
     /**
@@ -102,16 +108,18 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $path = Paths::getPath('git_composter');
         $filesystem->ensureDirectoryExists($path);
         $composterPath = Paths::getPath('git_composter');
-        if (static::$io->isVeryVerbose()) {
-            static::$io->write(
-                sprintf(
-                    'Removing previous PHP Composter actions at %1$s',
-                    $composterPath
-                )
-            );
+        if (is_writeable($composterPath)) {
+            if (static::$io->isVeryVerbose()) {
+                static::$io->write(
+                    sprintf(
+                        'Removing previous PHP Composter actions at %1$s',
+                        $composterPath
+                    )
+                );
+            }
+            $filesystem->emptyDirectory($composterPath);
+            file_put_contents(Paths::getPath('git_config'), static::buildConfigPhp());
         }
-        $filesystem->emptyDirectory($composterPath);
-        file_put_contents(Paths::getPath('git_config'), static::buildConfigPhp());
     }
 
     /**
@@ -170,18 +178,20 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $filesystem = new Filesystem();
 
         $composterTemplate = Paths::getPath('root_template');
-        if (static::$io->isVeryVerbose()) {
-            static::$io->write(
-                sprintf(
-                    'Removing previous PHP Composter code at %1$s',
-                    $composterTemplate
-                )
-            );
-        }
-        $filesystem->emptyDirectory($composterTemplate);
+        if (is_writeable($composterTemplate)) {
+            if (static::$io->isVeryVerbose()) {
+                static::$io->write(
+                    sprintf(
+                        'Removing previous PHP Composter code at %1$s',
+                        $composterTemplate
+                    )
+                );
+            }
+            $filesystem->emptyDirectory($composterTemplate);
 
-        $this->linkBootstrapFiles($filesystem);
-        $this->createGitHooks($filesystem);
+            $this->linkBootstrapFiles($filesystem);
+            $this->createGitHooks($filesystem);
+        }
     }
 
     /**
@@ -212,7 +222,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                     )
                 );
             }
-            $this->createRelativeSymlink($filesystem, $composterTemplate . $file, $rootTemplate . $file);
+            if (is_writeable($rootTemplate . $file)) {
+                $this->createRelativeSymlink($filesystem, $composterTemplate . $file, $rootTemplate . $file);
+            }
         }
     }
 
@@ -245,9 +257,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                     )
                 );
             }
-            $this->createRelativeSymlink($filesystem, $gitScriptPath, $hookPath);
-            exec("chmod +x $hookPath");
-            exec("chmod +x $gitScriptPath");
+            if (is_writeable($hookPath)) {
+                $this->createRelativeSymlink($filesystem, $gitScriptPath, $hookPath);
+                exec("chmod +x $hookPath");
+                exec("chmod +x $gitScriptPath");
+            }
         }
     }
 
