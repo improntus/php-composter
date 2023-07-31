@@ -131,30 +131,30 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      */
     public static function buildConfigPhp()
     {
-        $phpEOL = PHP_EOL;
-        $output = "<?php$phpEOL";
-        $output .= "// PHP Composter configuration file.$phpEOL";
-        $output .= "// Do not edit, this file is generated automatically.$phpEOL";
+        $eol = PHP_EOL;
+        $output = "<?php$eol";
+        $output .= "// PHP Composter configuration file.$eol";
+        $output .= "// Do not edit, this file is generated automatically.$eol";
         $timeStamp = date('Y/m/d H:m:s');
-        $output .= "// Timestamp: $timeStamp$phpEOL";
-        $output .= $phpEOL;
-        $output .= "return [$phpEOL";
+        $output .= "// Timestamp: $timeStamp$eol";
+        $output .= $eol;
+        $output .= "return [$eol";
         $i = '    '; // indent
         foreach (Hook::getSupportedHooks() as $hook) {
             $entries = HookConfig::getEntries($hook);
-            $output .= "$i'$hook' => [$phpEOL";
+            $output .= "$i'$hook' => [$eol";
             $i2 = str_repeat($i, 2);
             foreach ($entries as $priority => $methods) {
-                $output .= "$i2$priority => [$phpEOL";
+                $output .= "$i2$priority => [$eol";
                 $i3 = str_repeat($i, 3);
                 foreach ($methods as $method) {
-                    $output .= "$i3'$method',$phpEOL";
+                    $output .= "$i3'$method',$eol";
                 }
-                $output .= "$i2],$phpEOL";
+                $output .= "$i2],$eol";
             }
-            $output .= "$i],$phpEOL";
+            $output .= "$i],$eol";
         }
-        $output .= "$i];$phpEOL";
+        $output .= "$i];$eol";
         return $output;
     }
 
@@ -177,8 +177,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
 
         $filesystem = new Filesystem();
 
-        $composterTemplate = Paths::getPath('root_template');
-        if (is_writeable($composterTemplate)) {
+        $composterRoot = Paths::getPath('git_composter');
+        if (is_writeable($composterRoot)) {
+            $composterTemplate = Paths::getPath('root_template');
             if (static::$io->isVeryVerbose()) {
                 static::$io->write(
                     sprintf(
@@ -222,7 +223,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                     )
                 );
             }
-            if (is_writeable($rootTemplate . $file)) {
+            if (is_writeable($rootTemplate)) {
                 $this->createRelativeSymlink($filesystem, $composterTemplate . $file, $rootTemplate . $file);
             }
         }
@@ -257,7 +258,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                     )
                 );
             }
-            if (is_writeable($hookPath)) {
+            if (is_writeable($hooksPath)) {
                 $this->createRelativeSymlink($filesystem, $gitScriptPath, $hookPath);
                 exec("chmod +x $hookPath");
                 exec("chmod +x $gitScriptPath");
