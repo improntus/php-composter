@@ -188,8 +188,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                     )
                 );
             }
-            $filesystem->emptyDirectory($composterTemplate);
-
             $this->linkBootstrapFiles($filesystem);
             $this->createGitHooks($filesystem);
         }
@@ -224,6 +222,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                 );
             }
             if (is_writeable($rootTemplate)) {
+                if (file_exists($rootTemplate . $file)) {
+                    $filesystem->remove($rootTemplate . $file);
+                }
                 $this->createRelativeSymlink($filesystem, $composterTemplate . $file, $rootTemplate . $file);
             }
         }
