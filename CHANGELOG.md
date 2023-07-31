@@ -97,3 +97,12 @@
 ### 1.1.4 (21/07/2023)
 #### Changed
 - Check if folder is writeable before making changes
+
+### 1.1.5 (31/07/2023)
+#### Changed
+- Fix some "is_writeable" functions pointing to the wrong folder
+
+### 1.1.6 (31/07/2023)
+#### Changed
+- Remove emptying folder .git/php-composter/includes
+- Add remove composter bootstrap symlink to create it again
