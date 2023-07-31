@@ -106,3 +106,7 @@
 #### Changed
 - Remove emptying folder .git/php-composter/includes
 - Add remove composter bootstrap symlink to create it again
+
+### 1.1.7 (31/07/2023)
+#### Changed
+- Ensure that .git/php-composter folder exists
