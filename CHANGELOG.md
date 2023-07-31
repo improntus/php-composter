@@ -110,3 +110,7 @@
 ### 1.1.7 (31/07/2023)
 #### Changed
 - Ensure that .git/php-composter folder exists
+
+### 1.1.8 (31/07/2023)
+#### Changed
+- Avoid removing folder unnecesary
