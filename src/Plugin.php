@@ -117,7 +117,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                     )
                 );
             }
-            $filesystem->emptyDirectory($composterPath);
+            if (file_exists(Paths::getPath('git_config'))) {
+                $filesystem->remove(Paths::getPath('git_config'));
+            }
             file_put_contents(Paths::getPath('git_config'), static::buildConfigPhp());
         }
     }
