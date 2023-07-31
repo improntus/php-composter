@@ -178,6 +178,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
         $filesystem = new Filesystem();
 
         $composterRoot = Paths::getPath('git_composter');
+        $filesystem->ensureDirectoryExists($composterRoot);
         if (is_writeable($composterRoot)) {
             $composterTemplate = Paths::getPath('root_template');
             if (static::$io->isVeryVerbose()) {
