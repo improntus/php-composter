@@ -289,6 +289,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface
             );
 
             try {
+                if (file_exists($filesystem->normalizePath($link))) {
+                    if (!is_writeable($filesystem->normalizePath($link))) {
+                        return;
+                    }
+                    $filesystem->remove($filesystem->normalizePath($link));
+                }
                 symlink($filesystem->normalizePath($target), $filesystem->normalizePath($link));
             } catch (ErrorException $e) {
                 // Generate a more explanatory exception instead of the standard symlink messages.

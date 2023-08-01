@@ -114,3 +114,7 @@
 ### 1.1.8 (31/07/2023)
 #### Changed
 - Avoid removing folder unnecesary
+
+### 1.1.9 (01/08/2023)
+#### Changed
+- Triple validation to avoid getting a "symlink(): File exists"
