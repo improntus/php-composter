@@ -81,6 +81,18 @@ class Installer extends LibraryInstaller
     }
 
     /**
+     * @param $type
+     * @param PackageInterface $package
+     * @param PackageInterface|null $prevPackage
+     * @return null
+     */
+    public function cleanup($type, PackageInterface $package, ?PackageInterface $prevPackage = null)
+    {
+        // Remove cleanup for compatibility with zip downloader and composer >= 2.5
+        return null;
+    }
+
+    /**
      * Check whether the package is already installed.
      *
      * @param InstalledRepositoryInterface $repo

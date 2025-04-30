@@ -118,3 +118,7 @@
 ### 1.1.9 (01/08/2023)
 #### Changed
 - Triple validation to avoid getting a "symlink(): File exists"
+
+### 1.2.0 (30/04/2025)
+#### Changed
+- Added compatibility with composer zip downloader and composer >= 2.5

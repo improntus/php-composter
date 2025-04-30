@@ -1,48 +1,48 @@
 {
-	"name"              : "improntus/php-composter",
-	"description"       : "Git Hooks Management through Composer.",
-	"license"           : "MIT",
-	"authors"           : [
-		{
-			"name"     : "Alain Schlesser",
-			"email"    : "alain.schlesser@gmail.com",
-			"homepage" : "https://www.alainschlesser.com",
-			"role"     : "Developer"
-		},
-		{
-			"name"     : "Facundo Colonna",
-			"email"    : "facundo@improntus.com",
-			"homepage" : "https://www.improntus.com",
-			"role"     : "Technical Leader"
-		}
-	],
-	"version"	    : "1.1.9",
-	"type"              : "composer-plugin",
-	"minimum-stability" : "dev",
-	"prefer-stable"     : true,
-	"support"           : {
-		"issues" : "https://github.com/php-composter/php-composter/issues",
-		"wiki"   : "https://github.com/php-composter/php-composter/wiki",
-		"source" : "https://github.com/php-composter/php-composter/releases",
-		"docs"   : "https://github.com/php-composter/php-composter/blob/master/README.md"
-	},
-	"require"           : {
-		"composer/installers" : "*",
-		"composer/composer"   : "*",
-		"composer-plugin-api" : "*"
-	},
-	"autoload"          : {
-		"psr-4" : {
-			"Improntus\\PHPComposter\\" : "src/"
-		}
-	},
-	"config"            : {
-		"optimize-autoloader" : true,
-		"allow-plugins": {
-			"composer/installers": true
-		}
-	},
-	"extra"             : {
-		"class" : "Improntus\\PHPComposter\\Plugin"
-	}
+    "name": "improntus/php-composter",
+    "description": "Git Hooks Management through Composer.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alain Schlesser",
+            "email": "alain.schlesser@gmail.com",
+            "homepage": "https://www.alainschlesser.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Facundo Colonna",
+            "email": "facundo@improntus.com",
+            "homepage": "https://www.improntus.com",
+            "role": "Technical Leader"
+        }
+    ],
+    "version": "1.2.0",
+    "type": "composer-plugin",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "support": {
+        "issues": "https://github.com/php-composter/php-composter/issues",
+        "wiki": "https://github.com/php-composter/php-composter/wiki",
+        "source": "https://github.com/php-composter/php-composter/releases",
+        "docs": "https://github.com/php-composter/php-composter/blob/master/README.md"
+    },
+    "require": {
+        "composer/installers": "*",
+        "composer/composer": "*",
+        "composer-plugin-api": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Improntus\\PHPComposter\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "extra": {
+        "class": "Improntus\\PHPComposter\\Plugin"
+    }
 }
